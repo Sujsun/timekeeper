@@ -1,0 +1,34 @@
+{
+  "name": "timekeeper",
+  "version": "0.0.1",
+  "description": "Sync client time with server time. Get correct time even if client has set wrong time",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server",
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Sujsun/timekeeper"
+  },
+  "keywords": [
+    "sync",
+    "server",
+    "time"
+  ],
+  "author": "Sundarasan Natarajan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Sujsun/timekeeper/issues"
+  },
+  "homepage": "https://github.com/Sujsun/timekeeper",
+  "dependencies": {
+    "express": "^4.14.0"
+  },
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-contrib-uglify": "^1.0.1",
+    "grunt-contrib-watch": "^1.0.0"
+  }
+}

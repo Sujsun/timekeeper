@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Demo | TimeKeeper</title>
+
+  <style>
+    .time {
+      padding: 10px;
+      font-size: 30px;
+    }
+  </style>
+</head>
+<body>
+
+  <div align="center">
+
+    <br/>
+    <br/>
+
+    <h2>Demo | TimeKeeper</h2>
+
+    <br/>
+    <br/>
+
+    <div>
+      <label>Machine Time: </label>
+      <span id="machine-time" class="time">12:00 PM</span>
+    </div>
+
+    <br/>
+    <br/>
+
+    <div>
+      <label>Correct Time: </label>
+      <span id="correct-time" class="time">12:00 PM</span>
+    </div>
+
+    <br/>
+    <br/>
+
+    <div>
+      <label>Time Difference: </label>
+      <span id="time-difference" class="time">0 minutes</span>
+    </div>
+
+    <br/>
+    <br/>
+
+    <div id="syncing-status">
+      <p>Syncing...</p>
+    </div>
+
+  </div>
+
+  <script src="/dist/timekeeper.js" type="text/javascript" charset="utf-8" async defer></script>
+  <script src="/js/action.js" type="text/javascript" charset="utf-8" async defer></script>
+
+</body>
+</html>
