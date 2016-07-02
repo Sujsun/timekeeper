@@ -4,6 +4,10 @@
   <title>Demo | TimeKeeper</title>
 
   <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
     .time {
       padding: 10px;
       font-size: 30px;
@@ -46,14 +50,20 @@
     <br/>
     <br/>
 
-    <div id="syncing-status">
-      <p>Syncing...</p>
+    <div>
+      <button id="sync-button">Sync now</button>
+    </div>
+
+    <br/>
+
+    <div>
+      <p id="syncing-status">Syncing...</p>
     </div>
 
   </div>
 
-  <script src="/dist/timekeeper.js" type="text/javascript" charset="utf-8" async defer></script>
-  <script src="/js/action.js" type="text/javascript" charset="utf-8" async defer></script>
+  <script src="/dist/timekeeper.js" type="text/javascript" charset="utf-8"></script>
+  <script src="/js/action.js" type="text/javascript" charset="utf-8"></script>
 
 </body>
 </html>

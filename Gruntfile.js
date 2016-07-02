@@ -42,8 +42,8 @@ module.exports = function(grunt) {
 
     watch: {
       dist: {
-        files: ['dist/timekeeper.js'],
-        tasks: ['default']
+        files: ['dist/timekeeper.js', './index.js'],
+        tasks: ['build']
       },
     },
 
@@ -62,10 +62,14 @@ module.exports = function(grunt) {
     grunt.task.run('watch');
   });
 
-  grunt.registerTask('default', [
+  grunt.registerTask('build', [
     'copy:dist',
     'uglify',
     'copy:public_dist',
+  ]);
+
+  grunt.registerTask('default', [
+    'build',
     'start',
   ]);
 };

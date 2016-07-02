@@ -107,6 +107,42 @@
   };
 
   /**
+   * ---------
+   * Minivents
+   * ---------
+   */
+  function Events(target) {
+    var events = {},
+      empty = [];
+    target = target || this
+    /**
+     *  On: listen to events
+     */
+    target.on = function(type, func, ctx) {
+      (events[type] = events[type] || []).push([func, ctx])
+    }
+    /**
+     *  Off: stop listening to event / specific callback
+     */
+    target.off = function(type, func) {
+      type || (events = {})
+      var list = events[type] || empty,
+        i = list.length = func ? list.length : 0;
+      while (i--) func == list[i][0] && list.splice(i, 1)
+    }
+    /** 
+     * Emit: send event, callbacks will be triggered
+     */
+    target.emit = function(type) {
+      var e = events[type] || empty,
+        list = e.length > 0 ? e.slice(0, e.length) : e,
+        i = 0,
+        j;
+      while (j = list[i++]) j[0].apply(j[1], empty.slice.call(arguments, 1))
+    };
+  };
+
+  /**
    * ----------
    * TimeKeeper
    * ----------
@@ -114,9 +150,20 @@
   var OPTIONS_DEFAULTS = {
     ajaxType: 'get',
     ajaxMilliUrl: '/utcMillis',
+    syncInterval: 1 * 60 * 1000, // 1 minute
     responseParser: function (response) {
       return parseInt(response);
     },
+  };
+
+  var EVENTS = {
+    SYNC: 'sync',
+    SYNCED: 'synced',
+    SYNC_ERROR: 'sync_error',
+
+    FIRST_SYNC: 'first_sync',
+    FIRST_SYNCED: 'first_synced',
+    FIRST_SYNC_ERROR: 'first_sync_error',
   };
 
   /**
@@ -126,6 +173,8 @@
     this._options = ObjectUtils.clone(options || {});
     this._options = ObjectUtils.defaults(this._options, OPTIONS_DEFAULTS);
     this._differenceInMillis = 0;
+    this._isSyncedOnce = false;
+    this._event = new Events();
     return this;
   }
 
@@ -156,7 +205,7 @@
     }(this._Date);
   };
 
-  TimeKeeper.prototype.resetDate = function () {
+  TimeKeeper.prototype.releaseDate = function () {
     return (window.Date = this._Date);
   };
 
@@ -168,6 +217,22 @@
     return this._differenceInMillis;
   };
 
+  TimeKeeper.prototype.startSync = function (syncInterval) {
+    return this._startSync.apply(this, arguments);
+  };
+
+  TimeKeeper.prototype.stopSync = function () {
+    return this._stopSync.apply(this, arguments);
+  };
+
+  TimeKeeper.prototype.on = function () {
+    this._event.on.apply(this._event, arguments);
+  };
+
+  TimeKeeper.prototype.off = function () {
+    this._event.off.apply(this._event, arguments);
+  };
+
   /**
    * TimeKeeper Private Members
    */
@@ -177,18 +242,61 @@
    */
   TimeKeeper.prototype._Date = window.Date;
 
+  TimeKeeper.prototype._startSync = function (syncInterval) {
+    var self = this;
+    typeof(syncInterval) === 'number' && (this._options.syncInterval = syncInterval);
+    this.stopSync();
+    this.sync();
+    return this._syncIntervalIndex = window.setInterval(function () {
+      self.sync();
+    }, this._options.syncInterval);
+  };
+
+  TimeKeeper.prototype._stopSync = function () {
+    window.clearInterval(this._syncIntervalIndex);
+    delete this._syncIntervalIndex;
+  };
+
   TimeKeeper.prototype._sync = function (callback) {
     callback || (callback = function() {});
-    var self = this;
+    var self = this,
+      correctDate = self.Date();
+    this._emitPreSyncEvent();
     this._getServerDateMillis(function (err, serverTimeInMillis) {
       if (err) {
         console.error('Failed to fetch server time. Error:', err);
         callback(err);
+        self._emitSyncEvent(err);
       } else {
         self._findDifferenceInMillis(serverTimeInMillis);
-        callback(null, self.Date());
+        correctDate = self.Date();
+        callback(null, correctDate);
+        self._emitSyncedEvent(null, correctDate);
       }
     });
+  };
+
+  TimeKeeper.prototype._emitPreFirstSyncEvent = function () {
+    if (this._isSyncedOnce === false) {
+      this._event.emit(EVENTS.FIRST_SYNC);
+    }
+  };
+
+  TimeKeeper.prototype._emitPreSyncEvent = function () {
+    this._emitPreFirstSyncEvent();
+    this._event.emit(EVENTS.SYNC);
+  };
+
+  TimeKeeper.prototype._emitFirstSyncedEvent = function (err, data) {
+    if (this._isSyncedOnce === false) {
+      this._isSyncedOnce = true;
+      this._event.emit(err ? EVENTS.FIRST_SYNC_ERROR : EVENTS.FIRST_SYNCED, err || data);
+    }
+  };
+
+  TimeKeeper.prototype._emitSyncedEvent = function (err, data) {
+    this._emitFirstSyncedEvent(err, data);
+    this._event.emit(err ? EVENTS.SYNC_ERROR : EVENTS.SYNCED, err || data);
   };
 
   TimeKeeper.prototype._getCorrectDate = function () {
@@ -204,12 +312,15 @@
   };
 
   TimeKeeper.prototype._getServerDateMillis = function (callback) {
-    var self = this;
+    var self = this,
+      startTime = new this._Date().getTime();
     AJAX.call({
       type: this._options.ajaxType,
       url: this._options.ajaxMilliUrl,
       success: function (data) {
-        callback(null, self._options.responseParser(data));
+        var timeForResponse = new self._Date().getTime() - startTime,
+          serverTime = self._options.responseParser(data) - (timeForResponse / 2); // Adjusting the server time, since request takes some time
+        callback(null, serverTime);
       },
       error: function (err) {
         callback(err);
