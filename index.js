@@ -151,6 +151,8 @@
     ajaxType: 'get',
     ajaxMilliUrl: '/utcMillis',
     syncInterval: 1 * 60 * 1000, // 1 minute
+    differenceInMillis: 0,
+    overrideDate: false,
     responseParser: function (response) {
       return parseInt(response);
     },
@@ -172,9 +174,11 @@
   function TimeKeeper (options) {
     this._options = ObjectUtils.clone(options || {});
     this._options = ObjectUtils.defaults(this._options, OPTIONS_DEFAULTS);
-    this._differenceInMillis = 0;
+    this._differenceInMillis = this._options.differenceInMillis;
     this._isSyncedOnce = false;
     this._event = new Events();
+    this.setCorrectTimeInMillis(this._options.correctTimeInMillis);
+    this._options.overrideDate && (this.overrideDate());
     return this;
   }
 
@@ -207,6 +211,10 @@
 
   TimeKeeper.prototype.releaseDate = function () {
     return (window.Date = this._Date);
+  };
+
+  TimeKeeper.prototype.setCorrectTimeInMillis = function (correctTimeInMillis) {
+    return typeof(correctTimeInMillis) === 'number' && this._findDifferenceInMillis(correctTimeInMillis);
   };
 
   TimeKeeper.prototype.setDifferenceInMillis = function (differenceInMillis) {
