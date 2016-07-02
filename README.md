@@ -21,8 +21,8 @@ timekeeper.sync(function () {
 ```javascript
 var timekeeper = TimeKeeper();
 
-timekeeper.on('sync', function () {
- console.log('Synced...');
+timekeeper.on('synced', function () {
+ console.log('Synced successfully');
 });
 
 timekeeper.startSync(5 * 60 * 1000);  // Will sync regularly at 5 min interval
@@ -50,7 +50,7 @@ console.log('Correct time:', new Date());
 ##Options
 - `correctTimeInMillis` - Correct time (server time)
 - `ajaxType` - HTTP Method type [`get`/`post`/`put`]
-- `ajaxMilliUrl` - URL to hit to fetch time in UTC milliseconds (Default: `/utcMillis`)
+- `ajaxMilliUrl` - URL to hit to fetch time in UTC milliseconds (Default value: "/utcMillis")
 - `syncInterval` - Interval at which sycn should happen
 - `responseParser` - Parser method for response
 - `differenceInMillis` - Incase you know difference of machine time and server time in milliseconds you can pass
@@ -70,12 +70,12 @@ console.log('Correct time:', new Date());
 
 ###Events
 - Supported events
- - `sync` - Will be triggered when `timekeeper.sync()` is called
- - `synced` - Will be triggered when client time syncs with server time
- - `sync_error` - Will be triggered when sync fails
- - `first_sync` - Will be triggered when `timekeeper.sync()` is **called for the first time**
- - `first_synced` - Will be triggered when client time syncs with server time **for the first time**
- - `first_sync_error` - Will be triggered when **first sync** try fail
+ - `sync` - Will be triggered before syncing (prehook for sync)
+ - `synced` - Will be triggered when time sync is successful
+ - `sync_error` - Will be triggered when time sync fails
+ - `first_sync` - Will be triggered before syncing **for the first time**
+ - `first_synced` - Will be triggered when time sync **for first time** is successful
+ - `first_sync_error` - Will be triggered when time sync **for first time** fails
 
 
 ###To see demo
