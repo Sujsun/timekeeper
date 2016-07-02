@@ -16,6 +16,7 @@ timekeeper.sync(function () {
  console.log('Correct date:', timekeeper.Date());
 });
 ```
+**NOTE:** `responseParser` must return date in milliseconds
 
 **Sync at regular interval:**
 ```javascript
