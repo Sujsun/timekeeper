@@ -78,6 +78,10 @@ console.log('Correct time:', new Date());
  - `first_synced` - Will be triggered when time sync **for first time** is successful
  - `first_sync_error` - Will be triggered when time sync **for first time** fails
 
+###Motivation
+Have you seen chat application showing _"1 day ago"_ for a message which you received **just now**. <br/>
+This is probably because the **client machine time is set wrongly**. <br/>
+To avoid this chaos the **client time should be in sync with server time**. <br/>
 
 ###To see demo
 - Clone the project
