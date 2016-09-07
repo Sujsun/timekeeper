@@ -207,6 +207,14 @@
       CorrectedDate.prototype = OriginalDate.prototype;
       return CorrectedDate;
     }(this._Date);
+    if (!window.Date.now) {
+      window.Date.now = function now () {
+        return new window.Date().getTime();
+      };
+    }
+    if (!window.Date.parse) {
+      window.Date.parse = this._Date.parse;
+    }
   };
 
   TimeKeeper.prototype.releaseDate = function () {

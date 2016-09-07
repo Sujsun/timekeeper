@@ -212,6 +212,9 @@
         return new window.Date().getTime();
       };
     }
+    if (!window.Date.parse) {
+      window.Date.parse = this._Date.parse;
+    }
   };
 
   TimeKeeper.prototype.releaseDate = function () {

@@ -1,0 +1,22 @@
+{
+  "name": "timekeeper",
+  "description": "Sync client time with server time. Get correct time even if client has set wrong time",
+  "main": "index.js",
+  "authors": [
+    "Sundarasan Natarajan"
+  ],
+  "license": "ISC",
+  "keywords": [
+    "sync",
+    "server",
+    "time"
+  ],
+  "homepage": "https://github.com/Sujsun/timekeeper",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
