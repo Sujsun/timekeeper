@@ -345,7 +345,7 @@
   };
 
   TimeKeeper.prototype._findDifferenceInMillis = function (serverDateInMillis) {
-    this._differenceInMillis = this._getMachineDateMillis() - serverDateInMillis;
+    this._differenceInMillis = serverDateInMillis - this._getMachineDateMillis();
   };
 
   function createInstance (options) {
