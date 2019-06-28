@@ -5,7 +5,7 @@ function getPluginBanner () {
   pluginBanner += ' * Plugin: TimeKeeper\n';
   pluginBanner += ' * Author: Sundarasan Natarajan\n';
   pluginBanner += ' * GIT: https://github.com/Sujsun/timekeeper.git\n';
-  pluginBanner += ' * Version: 0.0.1\n';
+  pluginBanner += ' * Version: 0.0.2\n';
   pluginBanner += ' */\n';
   return pluginBanner;  
 }

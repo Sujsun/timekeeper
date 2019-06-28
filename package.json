@@ -1,6 +1,6 @@
 {
   "name": "timekeeper",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Sync client time with server time. Get correct time even if client has set wrong time",
   "main": "index.js",
   "scripts": {

@@ -2,7 +2,7 @@
  * Plugin: TimeKeeper
  * Author: Sundarasan Natarajan
  * GIT: https://github.com/Sujsun/timekeeper.git
- * Version: 0.0.1
+ * Version: 0.0.2
  */
 (function (root, factory) {
 
