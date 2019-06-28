@@ -1,7 +1,7 @@
 # TimeKeeper
 Plain javascript plugin to sync client time with server time
 
-###Example:
+### Example:
 **Basic usage:**
 ```javascript
 var timekeeper = TimeKeeper({
@@ -48,7 +48,7 @@ var timekeeper = TimeKeeper({ overrideDate: true, correctTimeInMillis: 146745186
 console.log('Correct time:', new Date());
 ```
 
-##Options
+## Options
 - `correctTimeInMillis` - Correct time (server time)
 - `ajaxType` - HTTP Method type [`get`/`post`/`put`]
 - `ajaxMilliUrl` - URL to hit to fetch time in UTC milliseconds (Default value: "/utcMillis")
@@ -56,7 +56,7 @@ console.log('Correct time:', new Date());
 - `responseParser` - Parser method for response
 - `differenceInMillis` - Incase you know difference of machine time and server time in milliseconds you can pass
 
-###Methods
+### Methods
 - `sync` - Fetches server time
 - `Date` - Gets Date object with server time (correct time)
 - `startSync(<intervalInMilliseonds>)` - Starts to run sync operation at given regualar interval
@@ -69,7 +69,7 @@ console.log('Correct time:', new Date());
 - `on(<eventName>, <eventHandlerMethod>)` - Attaches events
 - `off` - Removes events
 
-###Events
+### Events
 - Supported events
  - `sync` - Will be triggered before syncing (prehook for sync)
  - `synced` - Will be triggered when time sync is successful
@@ -78,12 +78,12 @@ console.log('Correct time:', new Date());
  - `first_synced` - Will be triggered when time sync **for first time** is successful
  - `first_sync_error` - Will be triggered when time sync **for first time** fails
 
-###Motivation
+### Motivation
 Have you seen chat application showing _"1 day ago"_ for a message which you received **just now**. <br/>
 This is probably because the **client machine time is set wrongly**. <br/>
 To avoid this chaos the **client time should be in sync with server time**. <br/>
 
-###To see demo
+### To see demo
 - Clone the project
 ```
 git clone https://github.com/Sujsun/timekeeper.git
