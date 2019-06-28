@@ -215,6 +215,9 @@
     if (!window.Date.parse) {
       window.Date.parse = this._Date.parse;
     }
+    if (!window.Date.UTC) {
+      window.Date.UTC = this._Date.UTC;
+    }
   };
 
   TimeKeeper.prototype.releaseDate = function () {
